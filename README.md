@@ -1,4 +1,4 @@
-# express-app with Duet AI
+# Node.js express-app with Duet AI
 
 ## Create a simple Node.js web app with the Express framework
 
