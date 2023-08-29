@@ -95,7 +95,7 @@ app.get('/greeting/:name', (req, res) => {
 }
 ```
 
-## Create a vies directory for ejs templates
+## Create a views directory for ejs templates
 
 ```
 mkdir views
