@@ -1,5 +1,12 @@
 # Node.js express-app with Duet AI
 
+This README is a walkthrough that demonstrates using Duet AI to generate a basic Express web app with routes and tests. Every comment in this demo is a prompt that results in Duet AI code generation. 
+
+Duet AI works with Visual Studio Code, WebStorm, and Cloud Workstations. It's free during the public preview.
+
+- Duet AI [information and sign up](https://cloud.google.com/duet-ai)
+- Visual Studio Code theme for highlighting AI prompts: [ai-zen-mode](https://marketplace.visualstudio.com/items?itemName=tonypujals.ai-zen-mode)
+
 ## Create a simple Node.js web app with the Express framework
 
 Create an empty directory. Add two empty files:
