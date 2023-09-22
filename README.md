@@ -14,7 +14,7 @@ Duet AI works with Visual Studio Code, WebStorm, and Cloud Workstations. It's fr
 Create an empty directory. Add two empty files:
 
 ```
-touch app.js test.js
+$ touch app.js test.js
 ```
 
 Start developing by asking a question in the Duet AI chat panel:
@@ -52,13 +52,15 @@ Start developing by asking a question in the Duet AI chat panel:
 
 **End of chat**
 
-Follow the prompt instructions and add the code to **app.js**.
+Follow the prompt instructions and add the suggested code to **app.js**.
 
 ## Duet AI prompts
 
 In the following source code, **all** comments are prompts that trigger Duet AI code generation by pressing **Ctrl-Enter** at the end of the comment. There can be a short delay before proposed code appears; to accept the proposed code, press the tab key.
 
 > Note that if using the vim keymap, you need to be in **insert mode**.
+
+[app.js]
 
 ```
 // add urlencoded middleware to parse form data
@@ -97,6 +99,8 @@ app.get('/greeting/:name', (req, res) => {
 
 **Copy the above start script and paste into package.json. Delete it from app.js. Confirm that package.json looks like this now (don't forget comma):**
 
+[package.json]
+
 ```
 {
   "scripts": {
@@ -112,11 +116,13 @@ app.get('/greeting/:name', (req, res) => {
 ## Create a views directory for ejs templates
 
 ```
-mkdir views
-touch views/index.ejs views/greeting.ejs
+$ mkdir views
+$ touch views/index.ejs views/greeting.ejs
 ```
 
-Add the following to **views/index.js**:
+Add the following HTML templates:
+
+[views/index.json]
 
 ```
 <HTML>
@@ -130,7 +136,7 @@ Add the following to **views/index.js**:
 </HTML>
 ```
 
-Add the following to **views/greeting.js**:
+[views/greeting.js]
 
 ```
 <HTML>
@@ -158,6 +164,8 @@ Confirm the app works as expected in the browser. 🎉
 ## Add a test
 
 At the bottom of **app.js**, add the following prompts:
+
+[app.js]
 
 ```
 // export app for testing
@@ -190,11 +198,14 @@ describe('Express App', () => {
 });
 ```
 
-Leave the `module.exports` statement, but cut the test code and paste into **test.js**.
+Then:
 
-Delete the second test (it's not correct).
+- Leave the `module.exports` statement, but cut the test code and paste into **test.js**.
+- Delete the second test (it's not correct).
 
-Prompt to import the app:
+After pasting the code into **test.js**, add a prompt at the top of the file to have Duet AI generate the code to import the app:
+
+[test.js]
 
 ```
 // import app
@@ -205,10 +216,12 @@ To run tests, install the mocha test package, plus supertest, which is used
 by the tests. (The assert package is part of the core library and doesn't need to be installed).
 
 ```
-npm i mocha supertest
+$ npm i mocha supertest
 ```
 
 Update **package.json** to add a `test` script. It should now look like this:
+
+[package.json]
 
 ```
 {
@@ -228,17 +241,20 @@ Update **package.json** to add a `test` script. It should now look like this:
 Now run the tests:
 
 ```
-npm test
+$ npm test
 ```
 
-The third test fails because it's a bit too strict about whitepspace. Modify it as follows. By the time you enter `text.`, Duet AI will offer to complete it for the expected string:
+The third test fails because it's a bit too strict about whitepspace. Modify the code as follows. By the time you enter `text.`, Duet AI will offer to complete it for the expected string:
+
+[test.js]
 
 ```
     assert.ok(response.text.includes('<h1>Hello World!</h1>'));
 ```
 
-That's great, it tested the default, but ask Duet AI to test with a supplied
-name using urlencoding (the form default):
+That's great, it tested the default response when no `name` was provided, but ask Duet AI to test with a specific name using urlencoding (the form default):
+
+[test.js]
 
 ```
   // add a /greeting test with a urlencoded name parameter
@@ -252,10 +268,16 @@ name using urlencoding (the form default):
 if you want JSON encoding, go back to **app.js** and add the json middleware
 after the urlencoding middleware:
 
+[app.js]
+
+```
 // add json middleware to parse json data
 app.use(express.json());
+```
 
 Then in **test.js**, ask Duet AI to create another test:
+
+[test.js]
 
 ```
   // add a /greeting test with a json encoded name parameter
@@ -290,7 +312,7 @@ Press Ctrl+C to quit.
 
 ## Add a JSON API
 
-In **app.js**:
+[app.js]
 
 ```
 // add POST /api/echo to echo request body
@@ -299,7 +321,7 @@ app.post('/api/echo', (req, res) => {
 });
 ```
 
-Update **test.js**:
+[test.js**]
 
 ```
   // add POST /api/echo test
@@ -341,14 +363,18 @@ Press Ctrl+C to quit.
 
 ## Deploy to Cloud Run
 
-Let's deploy the app to Cloud Run:
+Let's deploy the app to Cloud Run. You can ask Duet AI for help using a comment prompt in your code or ask in the chat panel. In the following, a comment prompt was used; the second comment is what Duet AI generated.
+
+[app.js]
 
 ```
 // deploy to cloud run from source
 // gcloud run deploy express-api --source . --region us-central1 --platform managed --allow-unauthenticated
 ```
 
-If you haven't set the gcloud project, just add the option to the end of the command, like this:
+Copy and run the `gcloud run` command in your terminal.
+
+> If you haven't already set the default gcloud project, then add it as as an option to the end of the command as shown below.
 
 ```
 $ gcloud run deploy express-api --source . \
